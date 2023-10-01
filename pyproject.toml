@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "fastapi-ecommerce-backend"
+version = "1.0.0"
+description = ""
+authors = ["Muhammad Fahad Baig <fadi@fahadbaig.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.103.2"
+SQLAlchemy = "^2.0.21"
+pydantic = "^2.4.2"
+aiomysql = "^0.2.0"
+fastapi-restful = "^0.5.0"
+passlib = "^1.7.4"
+pyjwt = "^2.8.0"
+alembic = "^1.12.0"
+python-dotenv = "^1.0.0"
+pydantic-settings = "^2.0.3"
+aiosqlite = "^0.19.0"
+pytz = "^2023.3.post1"
+starlette-context = "^0.3.6"
+uvicorn = "^0.23.2"
+typing-inspect = "^0.9.0"
+python-multipart = "^0.0.6"
+argon2-cffi = "^23.1.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.9.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
