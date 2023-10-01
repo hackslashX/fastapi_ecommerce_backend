@@ -61,7 +61,8 @@ class BaseResource(Resource):
         )
 
         return JSONResponse(
-            content=jsonable_encoder(self.response_data), status_code=self.status_code
+            content=jsonable_encoder(self.response_data),
+            status_code=self.status_code,
         )
 
     async def set_pre_request_vars(self):
@@ -82,14 +83,14 @@ class BaseResource(Resource):
         await self._base_req_params(request, db)
         await self.set_pre_request_vars()
         try:
-            # Run preprocess
-            await self.run_preprocess(request)
             # Check authentication data
             if self.authentication_required and not context.data["user"]:
                 raise HTTPException(
                     status_code=status.HTTP_403_FORBIDDEN,
                     detail="Not authorized to access this resource",
                 )
+            # Run preprocess
+            await self.run_preprocess(request)
             # Run API specific process flow
             await self.process_flow()
         # TODO: Add DB related exceptions too for rollback

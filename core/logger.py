@@ -16,7 +16,9 @@ class Logger:
         if parent_directory and not os.path.exists(parent_directory):
             os.makedirs(parent_directory)
 
-        log_file_name = os.path.join(parent_directory, os.path.basename(filename))
+        log_file_name = os.path.join(
+            parent_directory, os.path.basename(filename) + ".log"
+        )
         logging_level = config.LOGGING_LEVEL
         formatter = logging.Formatter(
             "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

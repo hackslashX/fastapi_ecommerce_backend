@@ -24,6 +24,6 @@ def create_jwt_token(payload: dict, typ: str = "access") -> str:
     encoded_jwt = jwt.encode(
         to_encode,
         config.JWT_CONFIG.JWT_SECRET_KEY,
-        algorithms=[config.JWT_CONFIG.JWT_ALGORITHM],
+        algorithm=config.JWT_CONFIG.JWT_ALGORITHM,
     )
     return encoded_jwt

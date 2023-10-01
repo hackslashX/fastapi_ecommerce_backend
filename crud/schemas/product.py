@@ -1,0 +1,33 @@
+from pydantic import BaseModel, Field
+from decimal import Decimal
+
+from common.types import TzDateTime
+
+
+class ProductBase(BaseModel):
+    product_name: str = Field(..., max_length=50)
+    description: str = Field(None, max_length=255)
+    price: Decimal = Field(..., gt=0, decimal_places=2)
+    is_active: bool = True
+
+
+class ProductCreate(ProductBase):
+    ...
+
+
+class ProductUpdate(ProductBase):
+    ...
+
+
+class ProductInDB(ProductBase):
+    id: int
+    quantity: int | None
+    created_at: TzDateTime
+    updated_at: TzDateTime
+
+    class Config:
+        orm_mode = True
+
+
+class Product(ProductInDB):
+    ...

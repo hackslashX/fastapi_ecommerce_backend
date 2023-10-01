@@ -15,13 +15,13 @@ class UserBase(BaseModel):
         try:
             pytz.timezone(v)
         except pytz.exceptions.UnknownTimeZoneError:
-            raise ValueError("timezone must be a valid timezone")
+            raise ValueError("timezone must be valid")
         return v
 
 
 class UserCreate(UserBase):
     email: str = Field(..., max_length=50)
-    password: str = Field(..., max_length=255)
+    password: str = Field(..., min_length=8, max_length=255)
     is_active: Literal[1] = 1
 
 

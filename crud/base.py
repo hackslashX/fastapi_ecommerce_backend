@@ -44,7 +44,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             db_obj = self.model(**obj_in_data)  # type: ignore
             session.add(db_obj)
             await session.commit()
-            session.refresh(db_obj)
+            await session.refresh(db_obj)
             return db_obj
 
     async def update(
@@ -64,12 +64,34 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
                 if field in update_data:
                     setattr(db_obj, field, update_data[field])
             session.add(db_obj)
-            session.commit()
-            session.refresh(db_obj)
+            await session.commit()
+            await session.refresh(db_obj)
             return db_obj
+
+    async def bulk_update(
+        self, db: AsyncSession, *, db_objs: List[ModelType]
+    ) -> List[ModelType]:
+        async with db as session:
+            for db_obj in db_objs:
+                session.add(db_obj)
+            await session.commit()
+            return db_objs
+
+    async def bulk_create(
+        self, db: AsyncSession, *, objs_in: CreateSchemaType
+    ) -> List[ModelType]:
+        async with db as session:
+            db_objs = []
+            for obj_in in objs_in:
+                obj_in_data = jsonable_encoder(obj_in)
+                db_obj = self.model(**obj_in_data)  # type: ignore
+                db_objs.append(db_obj)
+                session.add(db_obj)
+            await session.commit()
+            return db_objs
 
     async def remove(self, db: AsyncSession, *, id: int):
         async with db as session:
             stmt = delete(self.model).filter(self.model.id == id)
             await session.execute(stmt)
-            session.commit()
+            await session.commit()

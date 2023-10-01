@@ -84,8 +84,9 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
 
         async with db as session:
             db_obj.last_login = datetime.utcnow()
-            session.commit()
-            session.refresh(db_obj)
+            session.add(db_obj)
+            await session.commit()
+            await session.refresh(db_obj)
             return db_obj
 
 
