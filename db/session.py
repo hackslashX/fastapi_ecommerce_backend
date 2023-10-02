@@ -43,14 +43,13 @@ class RetryingSession(AsyncSession):
         while retries < self.retry_count:
             try:
                 return await super().execute(statement, *args, **kwargs)
-            except (OperationalError, InterfaceError, DBAPIError):
-                retries += 1
-                engine.dispose()
-                engine.connect()
-            except Exception as e:
+            except (OperationalError, InterfaceError, DBAPIError) as e:
                 # Raise this exception so that it is automatically handled
                 # by the logging handlers
-                raise e
+                retries += 1
+                engine.dispose()
+                if retries == self.retry_count:
+                    raise e
 
 
 # Bind Session to Async Session

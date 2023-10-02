@@ -9,6 +9,15 @@ import json
 from fastapi import Request
 
 
+async def process_dict_val_as_json(inp: dict) -> dict:
+    for k, v in inp.items():
+        if isinstance(v, str):
+            try:
+                inp[k] = json.loads(v)
+            except:
+                inp[k] = v
+
+
 class RequestPreProcessor(object):
     async def __call__(self, request: Request, call_next) -> dict:
         """
@@ -22,7 +31,9 @@ class RequestPreProcessor(object):
         # Process query_params
         if request.query_params:
             try:
-                return_dict.update(dict(request.query_params))
+                data = dict(request.query_params)
+                await process_dict_val_as_json(data)
+                return_dict.update(data)
             except:
                 pass
 
@@ -38,7 +49,9 @@ class RequestPreProcessor(object):
         form = await request.form()
         if form:
             try:
-                return_dict.update(dict(form))
+                data = dict(form)
+                await process_dict_val_as_json(data)
+                return_dict.update(data)
             except:
                 pass
 

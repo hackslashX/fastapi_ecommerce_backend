@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, TIMESTAMP, TEXT, DECIMAL
+from sqlalchemy import ForeignKey, Column, Integer, String, TIMESTAMP, TEXT, DECIMAL
 
 from db.base_class import Base
 
@@ -12,6 +12,7 @@ class Product(Base):
     id = Column(Integer, primary_key=True, index=True)
     product_name = Column(String(50), nullable=False, index=True)
     description = Column(TEXT, nullable=True)
+    category_id = Column(Integer, ForeignKey("category.id"), nullable=False)
     price = Column(DECIMAL(10, 2), nullable=False)
     quantity = Column(Integer, default=0)
     is_active = Column(Integer, nullable=False, default=1)

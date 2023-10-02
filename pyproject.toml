@@ -9,7 +9,7 @@ readme = "README.md"
 python = "^3.11"
 fastapi = "^0.103.2"
 SQLAlchemy = "^2.0.21"
-pydantic = "^2.4.2"
+pydantic = {extras = ["email"], version = "^2.4.2"}
 aiomysql = "^0.2.0"
 fastapi-restful = "^0.5.0"
 passlib = "^1.7.4"

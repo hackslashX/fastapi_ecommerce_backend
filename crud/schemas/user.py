@@ -2,12 +2,12 @@ import pytz
 from typing import Optional
 from typing_extensions import Literal
 from datetime import datetime
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, EmailStr, Field, validator
 
 
 class UserBase(BaseModel):
-    first_name: str = Field(..., max_length=50)
-    last_name: str = Field(..., max_length=50)
+    first_name: str = Field(..., max_length=50, min_length=3)
+    last_name: str = Field(..., max_length=50, min_length=3)
     timezone: str
 
     @validator("timezone")
@@ -20,7 +20,7 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-    email: str = Field(..., max_length=50)
+    email: EmailStr
     password: str = Field(..., min_length=8, max_length=255)
     is_active: Literal[1] = 1
 

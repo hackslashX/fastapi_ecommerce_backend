@@ -1,8 +1,8 @@
-from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
+from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union, Iterable
 
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
-from sqlalchemy import select, delete
+from sqlalchemy import select, delete, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from db.base_class import Base
@@ -31,12 +31,19 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             return result.scalar_one_or_none()
 
     async def get_multi(
-        self, db: AsyncSession, *, skip: int = 0, limit: int = 100
-    ) -> List[ModelType]:
+        self, db: AsyncSession, *, page: int, per_page: int, order_by: str, order: str
+    ) -> Iterable[ModelType]:
         async with db as session:
-            stmt = select(self.model).offset(skip).limit(limit)
-            results = await session.execute(stmt)
-            return results.scalars().all()
+            if not getattr(self.model, order_by, None):
+                order_by = "id"
+            stmt = (
+                select(self.model)
+                .order_by(text(f"{order_by} {order}"))
+                .offset((page - 1) * per_page)
+                .limit(per_page)
+            )
+            result = await session.execute(stmt)
+            return result.scalars().all()
 
     async def create(self, db: AsyncSession, *, obj_in: CreateSchemaType) -> ModelType:
         async with db as session:
@@ -52,7 +59,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         db: AsyncSession,
         *,
         db_obj: ModelType,
-        obj_in: Union[UpdateSchemaType, Dict[str, Any]]
+        obj_in: Union[UpdateSchemaType, Dict[str, Any]],
     ) -> ModelType:
         async with db as session:
             obj_data = jsonable_encoder(db_obj)

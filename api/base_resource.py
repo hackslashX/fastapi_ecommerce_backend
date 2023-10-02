@@ -114,6 +114,7 @@ class BaseResource(Resource):
                 )
             self.response_data = errors
             self.dont_postprocess = True
+
         # Run postprocess
         return await self.run_postprocess()
 
