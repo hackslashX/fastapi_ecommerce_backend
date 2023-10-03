@@ -10,6 +10,7 @@ from .endpoints.purchase_products import PurchaseProducts
 from .endpoints.create_category import CreateCategory
 from .endpoints.get_categories import GetCategories
 from .endpoints.get_products import GetProducts
+from .endpoints.get_sales_data import GetSalesData
 
 
 class RoutingV1(BaseRouting):
@@ -52,4 +53,8 @@ class RoutingV1(BaseRouting):
         self.routing_collection[GetProducts.api_name] = (
             GetProducts(),
             GetProducts.api_url,
+        )
+        self.routing_collection[GetSalesData.api_name] = (
+            GetSalesData(),
+            GetSalesData.api_url,
         )

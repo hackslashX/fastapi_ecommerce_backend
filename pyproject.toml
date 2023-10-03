@@ -6,7 +6,7 @@ authors = ["Muhammad Fahad Baig <fadi@fahadbaig.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.11,<3.13"
 fastapi = "^0.103.2"
 SQLAlchemy = "^2.0.21"
 pydantic = {extras = ["email"], version = "^2.4.2"}
@@ -24,6 +24,7 @@ uvicorn = "^0.23.2"
 typing-inspect = "^0.9.0"
 python-multipart = "^0.0.6"
 argon2-cffi = "^23.1.0"
+pandas = "^2.1.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.9.1"

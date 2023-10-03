@@ -107,11 +107,10 @@ class BaseResource(Resource):
             errors = getattr(e, "errors", None)
             if errors:
                 errors = errors()
+                errors = {e["loc"]: e["msg"] for e in errors}
             else:
                 errors = {}
-                self.response_message = (
-                    "We're unable to process your request at this time."
-                )
+            self.response_message = "We're unable to process your request at this time."
             self.response_data = errors
             self.dont_postprocess = True
 
