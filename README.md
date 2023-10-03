@@ -1,4 +1,4 @@
-## FastAPI Ecommerce Backend
+# FastAPI Ecommerce Backend
 
 This project is a web-based e-commerce platform that allows users to browse and purchase products, and provides administrators with tools for managing products, sales, and inventory. The platform is built using the FastAPI web framework and a MySQL database, and includes features such as user authentication, product categorization, and sales data analysis. The project aims to provide a scalable and maintainable solution for online retail businesses.
 
@@ -25,7 +25,7 @@ This project supports Python versions betweeen `3.11.1` and `3.11.3`.
 - `argon2-cffi`: A Python binding of the Argon2 password hashing algorithm.
 - `pandas`: A library for data manipulation and analysis.
 
-### Steps to Run the Project
+### Steps to Run the Project
 
 1. Clone the project repository to your local machine using `git clone <repository-url>` command.
 2. Navigate to the project directory using `cd <project-directory>` command.
