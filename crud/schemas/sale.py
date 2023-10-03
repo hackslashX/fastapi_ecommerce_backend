@@ -22,7 +22,7 @@ class SaleInDB(SaleBase):
     created_at: TzDateTime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Sale(SaleInDB):

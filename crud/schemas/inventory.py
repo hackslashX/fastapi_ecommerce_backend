@@ -21,7 +21,7 @@ class InventoryInDBBase(InventoryCreate):
     updated_at: TzDateTime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Inventory(InventoryInDBBase):
